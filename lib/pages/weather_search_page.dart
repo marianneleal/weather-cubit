@@ -16,32 +16,28 @@ class _WeatherSearchPageState extends State<WeatherSearchPage> {
         title: Text("Weather Search"),
       ),
       body: Container(
-        padding: EdgeInsets.symmetric(vertical: 16),
-        alignment: Alignment.center,
-        child: BlocConsumer<WeatherBloc, WeatherState>(
-          listener: (context, state) {
+          padding: EdgeInsets.symmetric(vertical: 16),
+          alignment: Alignment.center,
+          child: BlocConsumer<WeatherBloc, WeatherState>(
+              listener: (context, state) {
             if (state is WeatherError) {
               Scaffold.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.message),
-                ),
+                SnackBar(content: Text(state.message)),
               );
             }
-          },
-          builder: (context, state) {
+          }, builder: (context, state) {
             if (state is WeatherInitial) {
               return buildInitialInput();
             } else if (state is WeatherLoading) {
               return buildLoading();
             } else if (state is WeatherLoaded) {
               return buildColumnWithData(state.weather);
-            } else {
-              // (state is WeatherError)
+            }
+            // if state is weatherError:
+            else {
               return buildInitialInput();
             }
-          },
-        ),
-      ),
+          })),
     );
   }
 
